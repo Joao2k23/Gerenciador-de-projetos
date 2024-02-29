@@ -29,24 +29,27 @@ app.use(route)
 app.listen(PORT, () => 'server running on port 3333') 
 */
 
-const express = require("express");
-
-const request = require("http");
+//const express = require("express");
+import express = require('express');
 
 const app = express();
 
 app.use(express.json());
 
 
-app.post("/login", (request: Request, response: Response) =>{
-  const { login, password } = request.body;
+app.post("/login", (req:express.Request, res:express.Response) => {
+  const { login, password } = req.body;
+
+  if(!login || !password){
+    return res.status(400).json({error: "Login and Password are required"})
+  }
 
   const signIn = {
     login,
     password,
   }
 
-  return response.json(signIn);
+  return res.json(signIn);
 })
 
 app.listen(3333, () => console.log("server in port 3333"));
